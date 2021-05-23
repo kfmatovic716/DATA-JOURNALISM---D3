@@ -16,22 +16,22 @@ var textPadBottom = 40;
 var textPadLeft = 40;
 
 // Create the actual canvas for the graph
-var svg = YOUR_CODE_HERE // d3.select() the id "#scatter" element
-            .YOUR_CODE_HERE // .append() an "svg" tag
-            .YOUR_CODE_HERE // set the 'width' attribute to be your variable width
-            .YOUR_CODE_HERE // set the 'height' attribute to be your variable height
-            .YOUR_CODE_HERE; // give it a class of "chart"
+var svg = d3.select(#scatter) // d3.select() the id "#scatter" element
+         svg.append("g") // .append() an "svg" tag
+            .attr("width", width) // set the 'width' attribute to be your variable width
+            .attr("height", height) // set the 'height' attribute to be your variable height
+            .classed("chart", true); // give it a class of "chart"
 
 // Set the radius for each dot that will appear in the graph.
 // Note: Making this a function allows us to easily call
 // it in the mobility section of our code.
 var circleRadius;
 function getCircleRadius() {
-  YOUR_CODE_HERE {  // check if the width is less than or equal to 530
-    circleRadius = YOUR_CODE_HERE; // set the circleRadius to 5
+  if (width <= 530) {  // check if the width is less than or equal to 530
+    circleRadius = 5; // set the circleRadius to 5
   }
-  YOUR_CODE_HERE { // else
-    circleRadius = YOUR_CODE_HERE; // set the circleRadius to 10
+  else { // else
+    circleRadius = 10; // set the circleRadius to 10
   }
 }
 getCircleRadius();
@@ -42,7 +42,7 @@ getCircleRadius();
 // ==============
 
 // We create a group element to nest our bottom axes labels.
-var xText = YOUR_CODE_HERE; // append() a "g" element to the svg
+var xText = svg.append("g"); // append() a "g" element to the svg
 
 // We give xText a transform property that places it at the bottom of the chart.
 // By nesting this attribute in a function, we can easily change the location of the label group
@@ -57,28 +57,28 @@ xTextRefresh();
 // Now we use xText to append three text SVG files, with y coordinates specified to space out the values.
 
 // 1. Poverty
-YOUR_CODE_HERE // append a "text" element to the xText group
-      .YOUR_CODE_HERE // set the "y" attribute to -26
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'poverty'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'x'
-      .YOUR_CODE_HERE // give it class of axisText, active, and x
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+xText.append("text") // append a "text" element to the xText group
+     .attr("y", -26) // set the "y" attribute to -26
+     .attr("data-name", "poverty") // set the 'data-name' attribute to 'poverty'
+     .attr("data-axis", "x") // set the data-axis attribute to 'x'
+     .classed("axisText active x", true) // give it class of axisText, active, and x
+     .text("Poverty"); // set the text to be a human readable label
 
 // 2. Age
-YOUR_CODE_HERE // append a "text" element to the xText group
-      .YOUR_CODE_HERE // set the "y" attribute to 0
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'age'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'x'
-      .YOUR_CODE_HERE // give it class of axisText, inactive, and x
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+xText.append("text") // append a "text" element to the xText group
+     .attr("y", 0) // set the "y" attribute to 0
+     .attr("data-name", "age") // set the 'data-name' attribute to 'age'
+     .attr("data-axis", "x") // set the data-axis attribute to 'x'
+     .classed("axisText inactive x", true) // give it class of axisText, inactive, and x
+     .text("Age"); // set the text to be a human readable label
 
 // 3. Income
-YOUR_CODE_HERE // append a "text" element to the xText group
-      .YOUR_CODE_HERE // set the "y" attribute to 26
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'income'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'x'
-      .YOUR_CODE_HERE // give it class of axisText, inactive, and x
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+xText.append("text") // append a "text" element to the xText group
+      .attr("y", 26) // set the "y" attribute to 26
+      .attr("data-name", "income") // set the 'data-name' attribute to 'income'
+      .attr("data-axis", "x") // set the data-axis attribute to 'x'
+      .classed("axisText inactive x", true) // give it class of axisText, inactive, and x
+      .text("Income"); // set the text to be a human readable label
 
 // B) Left Axis
 // ============
@@ -88,8 +88,8 @@ var leftTextX = margin + textPadLeft;
 var leftTextY = (height + labelArea) / 2 - labelArea;
 
 // We add a second label group, this time for the axis left of the chart.
-var yText = YOUR_CODE_HERE // append a 'g' element to the svg
-                .YOUR_CODE_HERE; //give it a class of yText
+var yText = svg.append("g") // append a 'g' element to the svg
+               .classed("yText", true); //give it a class of yText
 
 // Like before, we nest the group's transform attr in a function
 // to make changing it on window change an easy operation.
@@ -101,28 +101,28 @@ yTextRefresh();
 
 // Now we append the text.
 // 1. Obesity
-YOUR_CODE_HERE // append a "text" element to the yText group
-      .YOUR_CODE_HERE // set the "y" attribute to -26
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'obesity'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'y'
-      .YOUR_CODE_HERE // give it class of axisText, active, and y
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+yText.append("text") // append a "text" element to the yText group
+      .attr("y", -26) // set the "y" attribute to -26
+      .attr("data-name", "obesity") // set the 'data-name' attribute to 'obesity'
+      .attr("data-axis", "y") // set the data-axis attribute to 'y'
+      .classed("axisText active y", true) // give it class of axisText, active, and y
+      .text("Obesity"); // set the text to be a human readable label
 
 // 2. Smokes
-YOUR_CODE_HERE // append a "text" element to the yText group
-      .YOUR_CODE_HERE // set the "y" attribute to 0
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'smokes'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'y'
-      .YOUR_CODE_HERE // give it class of axisText, inactive, and y
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+yText.append("text") // append a "text" element to the yText group
+      .attr("y", 0) // set the "y" attribute to 0
+      .attr("data-name", "smokes") // set the 'data-name' attribute to 'smokes'
+      .attr("data-axis", "y") // set the data-axis attribute to 'y'
+      .classed("axisText inactive y", true) // give it class of axisText, inactive, and y
+      .text("Smokes"); // set the text to be a human readable label
 
 // 3. Lacks Healthcare
-YOUR_CODE_HERE // append a "text" element to the yText group
-      .YOUR_CODE_HERE // set the "y" attribute to 0
-      .YOUR_CODE_HERE // set the 'data-name' attribute to 'healthcare'
-      .YOUR_CODE_HERE // set the data-axis attribute to 'y'
-      .YOUR_CODE_HERE // give it class of axisText, inactive, and y
-      .YOUR_CODE_HERE; // set the text to be a human readable label
+yText.append("text") // append a "text" element to the yText group
+      .attr("y", 26) // set the "y" attribute to 0
+      .attr("data-name", "healthcare") // set the 'data-name' attribute to 'healthcare'
+      .attr("data-axis", "y") // set the data-axis attribute to 'y'
+      .classed("axisText inactive y", true) // give it class of axisText, inactive, and y
+      .text("Lacks Healthcare"); // set the text to be a human readable label
       
 
 // 2. Import our .csv file.
@@ -134,7 +134,7 @@ YOUR_CODE_HERE // append a "text" element to the yText group
 // Import our CSV data with d3's .csv import method.
 d3.csv("assets/data/data.csv").then(function(data) {
   // Visualize the data
-  YOUR_CODE_HERE; // call your visualize() function on the data
+  visualize(data); // call your visualize() function on the data
 });
 
 // 3. Create our visualization function
@@ -158,9 +158,9 @@ function visualize(data) {
   var yMax;
 
   // This function allows us to set up tooltip rules (see d3-tip.js).
-  var toolTip = YOUR_CODE_HERE // create a d3.tip()
-                  .YOUR_CODE_HERE // set the class to 'd3-tip'
-                  .YOUR_CODE_HERE // set the offset to [40, -60]
+  var toolTip = d3.tip() // create a d3.tip()
+                  .attr("class", "tooltip") // set the class to 'd3-tip'
+                  .offset([-40, -60]) // set the offset to [40, -60]
                   .html(function(d) { 
                     // x key
                     var theX;
@@ -210,15 +210,15 @@ function visualize(data) {
   // c. change the classes (and appearance) of label text when clicked.
   function labelChange(axis, clickedText) {
     // Switch the currently active to inactive.
-    YOUR_CODE_HERE // d3.selectAll() the elements with class .axisText
-      .YOUR_CODE_HERE // .filter() to only those with class `.${axis}`
-      .YOUR_CODE_HERE // .filter() to only those with class .active
-      .YOUR_CODE_HERE // remove the class active from the element 
-      .YOUR_CODE_HERE; // give the element class inactive
+    d3.selectAll(".axisText") // d3.selectAll() the elements with class .axisText
+      .fiter(`.${axis}`) // .filter() to only those with class `.${axis}`
+      .filter(".active") // .filter() to only those with class .active
+      .classed("active", false) // remove the class active from the element 
+      .classed("inactive", true); // give the element class inactive
 
     // Switch the text just clicked to active.
-    clickedText.YOUR_CODE_HERE // remove the class inactive from the element 
-                .YOUR_CODE_HERE; // give the element class active
+    clickedText.classed("inactive", false) // remove the class inactive from the element 
+               .classed("active", true); // give the element class active
   }
 
   // Part 3: Instantiate the Scatter Plot
@@ -232,57 +232,57 @@ function visualize(data) {
   // With the min and max values now defined, we can create our scales.
   // Notice in the range method how we include the margin and word area.
   // This tells d3 to place our circles in an area starting after the margin and word area.
-  var xScale =  YOUR_CODE_HERE // create a d3 linear scale
-                  .YOUR_CODE_HERE // set the domain to be from xMin to xMax
+  var xScale =  d3.scaleLinear() // create a d3 linear scale
+                  .domain([xMin, xMax]) // set the domain to be from xMin to xMax
                   .range([margin + labelArea, width - margin]);
  
-  var yScale = YOUR_CODE_HERE // create a d3 linear scale
-                  .YOUR_CODE_HERE // set the domain to be from xMin to xMax
-                  .range([height - margin - labelArea, margin]);
+  var yScale = d3.scaleLinear() // create a d3 linear scale
+                 .domain([yMin, yMax]) // set the domain to be from yMin to yMax
+                 .range([height - margin - labelArea, margin]);
 
   // We pass the scales into the axis methods to create the axes.
   // Note: D3 4.0 made this a lot less cumbersome then before. Kudos to mbostock.
-  var xAxis = YOUR_CODE_HERE; // use d3.axisBottom() to read the xScale
-  var yAxis = YOUR_CODE_HERE; // use d3.axisLeft() to read the yScale
+  var xAxis = d3.axisBottom(xScale); // use d3.axisBottom() to read the xScale
+  var yAxis = d3.axisLeft(yScale); // use d3.axisLeft() to read the yScale
 
   // Determine x and y tick counts.
   // Note: Saved as a function for easy mobile updates.
-  YOUR_CODE_HERE { // create function called tickCount() that takes no arguments
-    YOUR_CODE_HERE { // if the width is less than or equal to 500
-      YOUR_CODE_HERE; // set xAxis.ticks(5)
-      YOUR_CODE_HERE; // set yAxis.ticks(5)
+  function tickCount() { // create function called tickCount() that takes no arguments
+    if(width <= 500) { // if the width is less than or equal to 500
+      xAxis.ticks(5); // set xAxis.ticks(5)
+      yAxis.ticks(5); // set yAxis.ticks(5)
     }
-    YOUR_CODE_HERE { // else
-      YOUR_CODE_HERE; // set xAxis.ticks(10)
-      YOUR_CODE_HERE; // set yAxis.ticks(10)
+    else { 
+      xAxis.ticks(10); // set xAxis.ticks(10)
+      yAxis.ticks(10); // set yAxis.ticks(10)
     }
   }
-  YOUR_CODE_HERE; // call the tickCount() function
+  tickCount(); // call the tickCount() function
 
   // We append the axes in group elements. By calling them, we include
   // all of the numbers, borders and ticks.
   // The transform attribute specifies where to place the axes.
-  YOUR_CODE_HERE // append a 'g' element to the svg
-      .YOUR_CODE_HERE // .call() the xAxis
-      .YOUR_CODE_HERE // set the class .attr() to be 'xAxis'
+  svg.append("g") // append a 'g' element to the svg
+      .call(xAxis) // .call() the xAxis
+      .attr("class", "xAxis") // set the class .attr() to be 'xAxis'
       .attr("transform", `translate(0,${(height - margin - labelArea)})`);
 
-  YOUR_CODE_HERE // append a 'g' element to the svg
-      .YOUR_CODE_HERE // .call() the yAxis
-      .YOUR_CODE_HERE // set the class .attr() to be 'yAxis'
+  svg.append("g") // append a 'g' element to the svg
+      .call(yAxis) // .call() the yAxis
+      .attr("class", "yAxis") // set the class .attr() to be 'yAxis'
       .attr("transform", `translate(${(margin + labelArea)}, 0)`);
 
   // Now let's make a grouping for our dots and their labels.
-  var circlesGroup = YOUR_CODE_HERE // .selectAll() 'g circlesGroup' elements in the svg
-                      .YOUR_CODE_HERE // bind the data to it with .data(data)
-                      .YOUR_CODE_HERE// .enter() into the data
+  var circlesGroup = svg.selectAll('g cirlesGroup') // .selectAll() 'g circlesGroup' elements in the svg
+                      .data(data) // bind the data to it with .data(data)
+                      .enter() // .enter() into the data
 
-  YOUR_CODE_HERE // append a 'circle' element to the circlesGroup
+  circlesGroup.append("circle") // append a 'circle' element to the circlesGroup
             // These attr's specify location, size and class.
-            .YOUR_CODE_HERE // set the 'cx' .attr() to map from d => xScale() applied to d[currentX]
-            .YOUR_CODE_HERE // set the 'cx' .attr() to map from d => yScale() applied to d[currentY]
-            .YOUR_CODE_HERE // set the 'r' attr() to be the circleRadius
-            .YOUR_CODE_HERE // set the class attr() to map from d => the d.abbr
+            .attr("cx", d => xScale(d[currentX])) // set the 'cx' .attr() to map from d => xScale() applied to d[currentX]
+            .attr("cy", d => yScale(d[currentY])) // set the 'cx' .attr() to map from d => yScale() applied to d[currentY]
+            .attr("r", circleRadius) // set the 'r' attr() to be the circleRadius
+            .attr("class", d => `${d.abbr) // set the class attr() to map from d => the d.abbr
             .YOUR_CODE_HERE { // .on 'mouseover' event, fire off a function that takes argument d
               // Show the tooltip
               YOUR_CODE_HERE; // use toolTip.show() with d and this as the arguments
