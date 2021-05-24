@@ -16,8 +16,8 @@ var textPadBottom = 40;
 var textPadLeft = 40;
 
 // Create the actual canvas for the graph
-var svg = d3.select(#scatter) // d3.select() the id "#scatter" element
-         svg.append("g") // .append() an "svg" tag
+var svg = d3.select("#scatter") // d3.select() the id "#scatter" element
+          svg.append("g") // .append() an "svg" tag
             .attr("width", width) // set the 'width' attribute to be your variable width
             .attr("height", height) // set the 'height' attribute to be your variable height
             .classed("chart", true); // give it a class of "chart"
@@ -282,45 +282,45 @@ function visualize(data) {
             .attr("cx", d => xScale(d[currentX])) // set the 'cx' .attr() to map from d => xScale() applied to d[currentX]
             .attr("cy", d => yScale(d[currentY])) // set the 'cx' .attr() to map from d => yScale() applied to d[currentY]
             .attr("r", circleRadius) // set the 'r' attr() to be the circleRadius
-            .attr("class", d => `${d.abbr) // set the class attr() to map from d => the d.abbr
-            .YOUR_CODE_HERE { // .on 'mouseover' event, fire off a function that takes argument d
+            .attr("class", d => `${d.abbr} stateCircle`) // set the class attr() to map from d => the d.abbr
+            .on("mouseover", function(d) { // .on 'mouseover' event, fire off a function that takes argument d
               // Show the tooltip
-              YOUR_CODE_HERE; // use toolTip.show() with d and this as the arguments
+              toolTip.show(d, this); // use toolTip.show() with d and this as the arguments
               // Highlight the state circle's border
-              YOUR_CODE_HERE; // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
+              d3.select(this).style("stroke", "red"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
             })
-            .YOUR_CODE_HERE { // on 'mouseout' fire off a function that takes argument d
+            .on("mouseout", function(d) { // on 'mouseout' fire off a function that takes argument d
                 // Remove the tooltip
-                YOUR_CODE_HERE; // use toolTip.hide() with d and this as the arguments
+                toolTip.hide(d, this); // use toolTip.hide() with d and this as the arguments
                 // Remove highlight
-                YOUR_CODE_HERE; // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
+                d3.select(this).style("stroke", "green"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
             });
 
   // With the circles on our graph, we need matching labels.
   // Let's grab the state abbreviations from our data
   // and place them in the center of our dots.
-  YOUR_CODE_HERE // append a 'text' element to circlesGroup
+  circlesGroup.append("text") // append a 'text' element to circlesGroup
               // We return the abbreviation to .text, which makes the text the abbreviation.
-              .YOUR_CODE_HERE // set the .text() to map from d => d.abbr
+              .text(d => d.abbr) // set the .text() to map from d => d.abbr
               // Now place the text using our scale.
-              .YOUR_CODE_HERE // set the 'dx' attr() to map from d => xScale() applied to d[currentX]
+              .attr("dx", d => xScale(d[currentX])) // set the 'dx' attr() to map from d => xScale() applied to d[currentX]
               // When the size of the text is the radius,
               // adding a third of the radius to the height
               // pushes it into the middle of the circle.
-              .YOUR_CODE_HERE // set the 'dy' attr() to map from d => yScale() applied to d[currentY]) + circleRadius / 2.5
-              .YOUR_CODE_HERE // set the 'font-size' .attr() to circleRadius
-              .YOUR_CODE_HERE // set the 'class' attr() to be from d => d.abbr
-              .YOUR_CODE_HERE { // on 'mouseover' event, fire off a function that takes argument d
+              .attr("dy", d =>yScale(d[currentY]) + circleRadius / 2.5) // set the 'dy' attr() to map from d => yScale() applied to d[currentY]) + circleRadius / 2.5
+              .attr("font-size", circleRadius) // set the 'font-size' .attr() to circleRadius
+              .attr("class", d => `${d.abbr} stateText`) // set the 'class' attr() to be from d => d.abbr
+              .on("mouseover", function(d) { // on 'mouseover' event, fire off a function that takes argument d
                 // Show the tooltip
-                YOUR_CODE_HERE; // use toolTip.show() with d and this as the arguments
+                toolTip.show(d, this); // use toolTip.show() with d and this as the arguments
                 // Highlight the state text's border
-                YOUR_CODE_HERE; // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
+                d3.select(this).style("stroke", "blue"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
               })
-              .YOUR_CODE_HERE { // on 'mouseout' fire off a function that takes argument d
+              .on("mouseout", function(d) { // on 'mouseout' fire off a function that takes argument d
                   // Remove the tooltip
-                  YOUR_CODE_HERE; // use toolTip.hide() with d and this as the arguments
+                  toolTip.hide(d, this); // use toolTip.hide() with d and this as the arguments
                   // Remove highlight
-                  YOUR_CODE_HERE; // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
+                  d3.select(this).style("stroke", "orange"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
               });
 
   // Part 4: Make the Graph Dynamic
@@ -332,58 +332,87 @@ function visualize(data) {
   d3.selectAll(".axisText").on("click", function() {
     // Make sure we save a selection of the clicked text,
     // so we can reference it without typing out the invoker each time.
-    var selectedLabel = YOUR_CODE_HERE; // d3.select() the this (the thing that was clicked)
+    var selectedLabel = d3.select(this); // d3.select() the this (the thing that was clicked)
 
     // We only want to run this on inactive labels.
     // It's a waste of the processor to execute the function
     // if the data is already displayed on the graph.
-    YOUR_CODE_HERE { // if the selectedLabel has the class 'inactive'
+    if (selectedLabel.classed("inactive")) { // if the selectedLabel has the class 'inactive'
       // Grab the name and axis saved in label.
-      var axis = YOUR_CODE_HERE; // grab the 'data-axis' .attr() from the selectedLabel
-      var name = YOUR_CODE_HERE; // grab the 'data-name' attr()
+      var axis = selectedLabel.attr("data-axis"); // grab the 'data-axis' .attr() from the selectedLabel
+      var name = selectedLabel.attr("data-name"); // grab the 'data-name' attr()
 
       // When x is the saved axis, execute this:
-      YOUR_CODE_HERE { // if the axis is equal to 'x'
+      if (axis === "x") { // if the axis is equal to 'x'
         // Make currentX the same as the data name.
         currentX = name;
 
         // Change the min and max of the x-axis
-        YOUR_CODE_HERE; // call the xMinMax() function
+        xMinMax(); // call the xMinMax() function
 
         // Update the domain of x.
-        YOUR_CODE_HERE; // set the .domain() of xScale to be the [xMin, and xMax]
+        xScale.domain([xMin, xMax]); // set the .domain() of xScale to be the [xMin, and xMax]
 
         // Now use a transition when we update the xAxis.
-        YOUR_CODE_HERE// select the .xAxis elements on the svg
-            .YOUR_CODE_HERE // set a transition()
-            .YOUR_CODE_HERE // give it a duration() of 300ms
-            .YOUR_CODE_HERE; // call the xAxis
+        d3.select(".xAxis") // select the .xAxis elements on the svg
+            .transition() // set a transition()
+            .duration(300) // give it a duration() of 300ms
+            .call(xAxis); // call the xAxis
 
         // With the axis changed, let's update the location of the state circles.
-        YOUR_CODE_HERE { // d3.selectAll() 'circle' elements, and then use .each to fire off an anonymous function with no arguments
+        d3.selectAll(".stateCircle").each(function() { // d3.selectAll() 'circle' elements, and then use .each to fire off an anonymous function with no arguments
           // Each state circle gets a transition for it's new attribute.
           // This will lend the circle a motion tween
           // from it's original spot to the new location.
-          YOUR_CODE_HERE // use d3.select(this)
-            .YOUR_CODE_HERE // set a transition
-            .YOUR_CODE_HERE // set the 'cx' attribute to go from d => xScale applied to d[currentX]
-            .YOUR_CODE_HERE; // set the duration to 300ms
+          d3.select(this) // use d3.select(this)
+            .transitio() // set a transition
+            .attr("cx", d => xScale(d[currentX])) // set the 'cx' attribute to go from d => xScale applied to d[currentX]
+            .duration(300); // set the duration to 300ms
         });
 
         // We need change the location of the state texts, too.
-        YOUR_CODE_HERE { // d3.selectAll() '.stateText' elements, and then use .each to fire off an anonymous function with no arguments
+        d3.selectAll(".stateText").each(function() { // d3.selectAll() '.stateText' elements, and then use .each to fire off an anonymous function with no arguments
           // We give each state text the same motion tween as the matching circle.
-          YOUR_CODE_HERE // use d3.select(this)
-            .YOUR_CODE_HERE // set a transition
-            .YOUR_CODE_HERE // set the 'dx' attribute to go from d => xScale applied to d[currentX]
-            .YOUR_CODE_HERE; // set the duration to 300ms
+          d3.select(this) // use d3.select(this)
+            .transition() // set a transition
+            .attr("dx", d => xScale(d[currentX])) // set the 'dx' attribute to go from d => xScale applied to d[currentX]
+            .duration(300); // set the duration to 300ms
         });
 
         // Finally, change the classes of the last active label and the clicked label.
-        YOUR_CODE_HERE; // call the labelCahnge function with axis and selectedLabel as arguments
+        labelChange(axis, selectedLabel); // call the labelCahnge function with axis and selectedLabel as arguments
       }
-      YOUR_CODE_HERE { //else
+      else { 
         // do all the same steps you just did for x, but this time do them for y
+        currentY = name;
+      
+        yMinMax();
+
+        yScale.domain([yMin, yMax]);
+
+        d3.select(".xAxis")
+          .transition()
+          .duration(300)
+          .call(yAxis);
+
+        d3.selectAll(".stateCircle").each(function() {
+
+          d3.select(this)
+            .transition()
+            .attr("cy", d => yScale(d[currentY]))
+            .duration(300)
+        });
+        
+        d3.selectAll(".stateText").each(function() {
+          
+          d3.select(this)
+            .transition()
+            .attr("dy", d => yScale(d[currentY]))
+            .duration(300)
+        });
+
+        labelChange(axis, selectedLabel);
+
       }
     }
   });
@@ -392,48 +421,53 @@ function visualize(data) {
   // =========================
   // With d3, we can call a resize function whenever the window dimensions change.
   // This makes it possible to add true mobile-responsiveness to our charts.
-  YOUR_CODE_HERE // d3.select() the window, and on resize event call the function resizeChart
+  d3.select(window).on("resize", resizeChart) // d3.select() the window, and on resize event call the function resizeChart
     
   // One caveat: we need to specify what specific parts of the chart need size and position changes.
-  YOUR_CODE_HERE { // define a function called resizeChart that takes no arguments
+  function resizeChart() { // define a function called resizeChart that takes no arguments
     // Redefine the width, height and leftTextY (the three variables dependent on the width of the window).
     width = parseInt(d3.select("#scatter").style("width"));
     height = width - width / 3.9;
     leftTextY = (height + labelArea) / 2 - labelArea;
 
     // Apply the width and height to the svg canvas.
-    YOUR_CODE_HERE // set the width and height attributes of the svg with the above variables
-   
+    svg.attr("width", width) // set the width and height attributes of the svg with the above variables
+    svg.attr("height", height)
+
     // Change the xScale and yScale ranges
     xScale.range([margin + labelArea, width - margin]);
     yScale.range([height - margin - labelArea, margin]);
 
     // With the scales changes, update the axes (and the height of the x-axis)
-    YOUR_CODE_HERE // select the .xAxis elements in the svg
-        .YOUR_CODE_HERE // call the xAxis function
+    d3.select(".xAxis") // select the .xAxis elements in the svg
+        .call(xAxis) // call the xAxis function
         .attr("transform", "translate(0," + (height - margin - labelArea) + ")");
 
-    YOUR_CODE_HERE // select the .yAxis elements in the svg
-        .YOUR_CODE_HERE // call the yAxis function
+    d3.select(".yAxis") // select the .yAxis elements in the svg
+      .call(yAxis) // call the yAxis function
 
     // Update the ticks on each axis.
-    YOUR_CODE_HERE; // call the tickCount() function
+    tickCount(); // call the tickCount() function
 
     // Update the labels.
-    YOUR_CODE_HERE; // call xtextRefresh() 
-    YOUR_CODE_HERE; // and yTextRefresh()
+    xTextRefresh(); // call xtextRefresh() 
+    yTextRefresh(); // and yTextRefresh()
                     
 
     // Update the radius of each dot.
-    YOUR_CODE_HERE;; // call getCircleRadius()
+    getCircleRadius();; // call getCircleRadius()
 
     // With the axis changed, let's update the location and radius of the state circles.
-    YOUR_CODE_HERE; // d3.selectAll() 'circle' elements
-      .YOUR_CODE_HERE// set the 'cy' attribute to use the yScale() d[currentY]
-      .YOUR_CODE_HERE // set the 'cy' attribute to use the xScale() d[currentX]
-      .YOUR_CODE_HERE; // set the 'r' attribute to be the circleRadius
+    d3.selectAll(".stateCircle") // d3.selectAll() 'circle' elements
+      .attr("cy", d => yScale(d[currentY])) // set the 'cy' attribute to use the yScale() d[currentY]
+      .attr("cx", d => xScale(d[currentX])) // set the 'cy' attribute to use the xScale() d[currentX]
+      .attr("r", circleRadius * 1.5); // set the 'r' attribute to be the circleRadius
 
     // We need change the location and size of the state texts, too.
-     // do the same for the .stateText elements, but remember to use 'dx'/'dy' and scale appropriately
+    // do the same for the .stateText elements, but remember to use 'dx'/'dy' and scale appropriately
+    d3.selectAll(".stateText")
+      .attr("dx", d => xScale(d[currentX]))
+      .attr("dy", d => yScale(d[currentY]))
+      .attr("style", `font-size:${circleRadius*.8}px`);
   }
 }
