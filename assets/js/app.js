@@ -17,11 +17,11 @@ var textPadLeft = 40;
 
 // Create the actual canvas for the graph
 var svg = d3.select("#scatter") // d3.select() the id "#scatter" element
-          svg.append("g") // .append() an "svg" tag
+            .append("svg") // .append() an "svg" tag
             .attr("width", width) // set the 'width' attribute to be your variable width
             .attr("height", height) // set the 'height' attribute to be your variable height
             .classed("chart", true); // give it a class of "chart"
-
+console.log(svg)
 // Set the radius for each dot that will appear in the graph.
 // Note: Making this a function allows us to easily call
 // it in the mobility section of our code.
@@ -30,7 +30,7 @@ function getCircleRadius() {
   if (width <= 530) {  // check if the width is less than or equal to 530
     circleRadius = 5; // set the circleRadius to 5
   }
-  else { // else
+  else { 
     circleRadius = 10; // set the circleRadius to 10
   }
 }
@@ -49,7 +49,7 @@ var xText = svg.append("g"); // append() a "g" element to the svg
 // whenever the width of the window changes.
 function xTextRefresh() {
   xText.attr("transform",
-              `translate(${((width - labelArea) / 2 + labelArea)},${(height - margin - textPadBottom)})`
+            `translate(${((width - labelArea) / 2 + labelArea)},${(height - margin - textPadBottom)})`
   );
 }
 xTextRefresh();
@@ -94,8 +94,7 @@ var yText = svg.append("g") // append a 'g' element to the svg
 // Like before, we nest the group's transform attr in a function
 // to make changing it on window change an easy operation.
 function yTextRefresh() {
-  yText.attr("transform", `translate(${leftTextX}, ${leftTextY})rotate(-90)`
-  );
+  yText.attr("transform", `translate(${leftTextX}, ${leftTextY})rotate(-90)`);
 }
 yTextRefresh();
 
@@ -118,7 +117,7 @@ yText.append("text") // append a "text" element to the yText group
 
 // 3. Lacks Healthcare
 yText.append("text") // append a "text" element to the yText group
-      .attr("y", 26) // set the "y" attribute to 0
+      .attr("y", 26) // set the "y" attribute to 26
       .attr("data-name", "healthcare") // set the 'data-name' attribute to 'healthcare'
       .attr("data-axis", "y") // set the data-axis attribute to 'y'
       .classed("axisText inactive y", true) // give it class of axisText, inactive, and y
@@ -134,7 +133,8 @@ yText.append("text") // append a "text" element to the yText group
 // Import our CSV data with d3's .csv import method.
 d3.csv("assets/data/data.csv").then(function(data) {
   // Visualize the data
-  visualize(data); // call your visualize() function on the data
+   visualize(data); // call your visualize() function on the data
+  // console.log(data)
 });
 
 // 3. Create our visualization function
@@ -159,7 +159,7 @@ function visualize(data) {
 
   // This function allows us to set up tooltip rules (see d3-tip.js).
   var toolTip = d3.tip() // create a d3.tip()
-                  .attr("class", "tooltip") // set the class to 'd3-tip'
+                  .attr("class", "d3-tip") // set the class to 'd3-tip'
                   .offset([-40, -60]) // set the offset to [40, -60]
                   .html(function(d) { 
                     // x key
@@ -365,7 +365,7 @@ function visualize(data) {
           // This will lend the circle a motion tween
           // from it's original spot to the new location.
           d3.select(this) // use d3.select(this)
-            .transitio() // set a transition
+            .transition() // set a transition
             .attr("cx", d => xScale(d[currentX])) // set the 'cx' attribute to go from d => xScale applied to d[currentX]
             .duration(300); // set the duration to 300ms
         });
@@ -390,7 +390,7 @@ function visualize(data) {
 
         yScale.domain([yMin, yMax]);
 
-        d3.select(".xAxis")
+        d3.select(".yAxis")
           .transition()
           .duration(300)
           .call(yAxis);
@@ -400,7 +400,7 @@ function visualize(data) {
           d3.select(this)
             .transition()
             .attr("cy", d => yScale(d[currentY]))
-            .duration(300)
+            .duration(300);
         });
         
         d3.selectAll(".stateText").each(function() {
@@ -408,14 +408,14 @@ function visualize(data) {
           d3.select(this)
             .transition()
             .attr("dy", d => yScale(d[currentY]))
-            .duration(300)
+            .duration(300);
         });
 
         labelChange(axis, selectedLabel);
 
       }
     }
-  });
+})
 
   // Part 5: Mobile Responsive
   // =========================
@@ -445,6 +445,7 @@ function visualize(data) {
 
     d3.select(".yAxis") // select the .yAxis elements in the svg
       .call(yAxis) // call the yAxis function
+      .attr("transform", `translate(${(margin + labelArea)}, 0)`);
 
     // Update the ticks on each axis.
     tickCount(); // call the tickCount() function
@@ -455,7 +456,7 @@ function visualize(data) {
                     
 
     // Update the radius of each dot.
-    getCircleRadius();; // call getCircleRadius()
+    getCircleRadius(); // call getCircleRadius()
 
     // With the axis changed, let's update the location and radius of the state circles.
     d3.selectAll(".stateCircle") // d3.selectAll() 'circle' elements
@@ -468,6 +469,6 @@ function visualize(data) {
     d3.selectAll(".stateText")
       .attr("dx", d => xScale(d[currentX]))
       .attr("dy", d => yScale(d[currentY]))
-      .attr("style", `font-size:${circleRadius*.8}px`);
+      .attr("style", `font-size:${circleRadius*1.0}px`);
   }
 }
