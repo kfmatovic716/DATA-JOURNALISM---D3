@@ -21,6 +21,7 @@ var svg = d3.select("#scatter") // d3.select() the id "#scatter" element
             .attr("width", width) // set the 'width' attribute to be your variable width
             .attr("height", height) // set the 'height' attribute to be your variable height
             .classed("chart", true); // give it a class of "chart"
+            
 console.log(svg)
 // Set the radius for each dot that will appear in the graph.
 // Note: Making this a function allows us to easily call
@@ -121,20 +122,22 @@ yText.append("text") // append a "text" element to the yText group
       .attr("data-name", "healthcare") // set the 'data-name' attribute to 'healthcare'
       .attr("data-axis", "y") // set the data-axis attribute to 'y'
       .classed("axisText inactive y", true) // give it class of axisText, inactive, and y
-      .text("Lacks Healthcare"); // set the text to be a human readable label
+      .text("Healthcare"); // set the text to be a human readable label
       
 
-// 2. Import our .csv file.
+// 2. Import .csv file.
 // ========================
 // This data file includes state-by-state demographic data from the US Census
 // and measurements from health risks obtained
 // by the Behavioral Risk Factor Surveillance System.
 
-// Import our CSV data with d3's .csv import method.
+// Import CSV data with d3's .csv import method.
 d3.csv("assets/data/data.csv").then(function(data) {
+
+  // console.log(data)
   // Visualize the data
    visualize(data); // call your visualize() function on the data
-  // console.log(data)
+  
 });
 
 // 3. Create our visualization function
@@ -192,19 +195,19 @@ function visualize(data) {
   // a. change the min and max for x
   function xMinMax() {
     // min will grab the smallest datum from the selected column.
-    xMin = d3.min(data, d => parseFloat(d[currentX]) * 0.90);
+    xMin = d3.min(data, d => parseFloat(d[currentX]) * 0.85);
  
     // .max will grab the largest datum from the selected column.
-    xMax = d3.max(data, d => parseFloat(d[currentX]) * 1.10);
+    xMax = d3.max(data, d => parseFloat(d[currentX]) * 1.05);
   }
 
   // b. change the min and max for y
   function yMinMax() {
     // min will grab the smallest datum from the selected column.
-    yMin = d3.min(data, d => parseFloat(d[currentY]) * 0.90);
+    yMin = d3.min(data, d => parseFloat(d[currentY]) * 0.85);
 
     // .max will grab the largest datum from the selected column.
-    yMax = d3.max(data, d => parseFloat(d[currentY]) * 1.10);
+    yMax = d3.max(data, d => parseFloat(d[currentY]) * 1.05);
   }
 
   // c. change the classes (and appearance) of label text when clicked.
@@ -287,13 +290,14 @@ function visualize(data) {
               // Show the tooltip
               toolTip.show(d, this); // use toolTip.show() with d and this as the arguments
               // Highlight the state circle's border
-              d3.select(this).style("stroke", "red"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
+              d3.select(this).style("stroke", "yellow"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
+              
             })
             .on("mouseout", function(d) { // on 'mouseout' fire off a function that takes argument d
                 // Remove the tooltip
                 toolTip.hide(d, this); // use toolTip.hide() with d and this as the arguments
                 // Remove highlight
-                d3.select(this).style("stroke", "green"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
+                d3.select(this).style("stroke", "#ffb3ff"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
             });
 
   // With the circles on our graph, we need matching labels.
@@ -314,13 +318,13 @@ function visualize(data) {
                 // Show the tooltip
                 toolTip.show(d, this); // use toolTip.show() with d and this as the arguments
                 // Highlight the state text's border
-                d3.select(this).style("stroke", "blue"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
+                d3.select(this).style("stroke", "red"); // use d3.select() the this element, and modify the 'stroke' .style() to a color of your choosing
               })
               .on("mouseout", function(d) { // on 'mouseout' fire off a function that takes argument d
                   // Remove the tooltip
                   toolTip.hide(d, this); // use toolTip.hide() with d and this as the arguments
                   // Remove highlight
-                  d3.select(this).style("stroke", "orange"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
+                  d3.select(this).style("stroke", "#ff66ff"); // use d3.select() the this element, and modify the 'stroke' .style() to another color of your choosing
               });
 
   // Part 4: Make the Graph Dynamic

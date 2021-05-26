@@ -6,7 +6,7 @@
 
 .active {
   font-weight: bold;
-  fill: #000;
+  fill: #006699;
   transition: fill 0.3s ease-out;
   text-anchor: middle;
 }
@@ -19,7 +19,7 @@
 }
 
 .inactive:hover {
-  fill: #000;
+  fill: #ff99ff;
   cursor: pointer;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .stateCircle {
-  fill: #89bdd3;
+  fill: #006699;
   stroke: #e3e3e3;
 }
 
@@ -48,7 +48,7 @@
   color: #fff;
   text-align: center;
   text-transform: capitalize;
-  background: rgba(0, 0, 0, 0.8);
+  background: #cc00cc;
   border-radius: 4px;
 }
 
